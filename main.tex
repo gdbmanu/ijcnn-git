@@ -403,7 +403,7 @@
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
 \title{Reward-based online learning in non-stationary environments: 
-adapting a P300-speller with a ``Backspace'' key}
+Adapting a P300-speller with a ``Backspace'' key}
 
 
 % author names and affiliations
@@ -543,8 +543,8 @@ After a classifier has been trained, the subject is expected to handle the inter
 of spelling words autonomously.
 However, many changes are expected to take place during subsequent use and
 the quality of the signal (and 
-thus the accuracy of the interface) is known to progessively degrade over time~:
-some electrodes may accidentally be displaced or unstick from the scalp, the conductivity of the scalp itself 
+thus the accuracy of the interface) is known to progessively deteriorate over time \cite{Shenoy2006}:
+Some electrodes may accidentally be displaced or unstick from the scalp, the conductivity of the scalp itself 
 may change during the experiment, 
 and the level of attention of the subject may evolve, etc. Moreover, experimental 
 conditions are difficult to reproduce
@@ -562,7 +562,7 @@ when the input data is abundant and high-dimensional \cite{Bottou03}.
 %label obtained from the classifier.
 %This approach does not apply here because the expected output (the letter to be spelled for instance)
 %is not available in free use.
-The problem of BCI non-stationarity is generally adressed using an unsupervised expectation-maximi\-zation (EM) 
+The problem of BCI non-stationarity is generally addressed using an unsupervised expectation-maximi\-zation (EM) 
 procedure \cite{Li06,Lu09,Kindermans12}, which is not proven to always converge to a consistent classifier.
 We develop in this paper a  first attempt to adapt the  
 reinforcement learning methodology \cite{Sutton98}
@@ -595,7 +595,7 @@ session may also take place prior to the spelling session.
 
 In this paper, we consider the second case and 
 look in section \ref{sec:principles} at the principles underlying reward-based learning in the P300-speller case,
-adapting the classical policy gradient appoach \cite{Wil92} to that context.
+adapting the classical policy gradient approach \cite{Wil92} to that context.
 In section \ref{sec:analysis},  
 we look at the gradient estimator, in the particular case where the rewards are binary, 
 and we prove (i) the estimator to systematically head toward response improvement when correct responses are positively 
@@ -664,7 +664,7 @@ and only one input belonging to the ``target'' category.
 This problem can be seen as a one-\emph{among}-all classification problem\footnote{not to be mixed up with the ``one-vs-all'' classification setup.}.
 Noting $P^+$ the target vectorial distribution and
 $P^-$ the non-target vectorial distribution, we propose the following generative model: 
-each observation $\underline{\mathbf{x}}$ can be seen as the result of a random draw from a uniform 
+Each observation $\underline{\mathbf{x}}$ can be seen as the result of a random draw from a uniform 
 mixture of $K$ distributions $P_1, ..., P_K$,  
 with $P_1 = (P^+,P^-,...,P^-)$, $P_2=(P^-,P^+,P^-,...,P^-)$, ..., $P_K=(P^-,...,P^-,P^+)$,
 each $P_k$ standing for a sequence of $K$ independently drawn feature vectors having the $k^\text{th}$ vector for target.
@@ -793,7 +793,7 @@ Following \cite{Wil92}, the regularized policy gradient can be shown to obey to:
 %\end{equation} 
 %and the regularized policy gradient can be shown to be:
 \begin{equation}\label{eq:regularized_pg}
-\nabla_{\boldsymbol{w}} \mathcal{G} = E(r \nabla_{\boldsymbol{w}} \ln(\pi) - \lambda  \boldsymbol{w}) 
+\nabla_{\boldsymbol{w}} \mathcal{G} = E(r \nabla_{\boldsymbol{w}} \ln(\pi)) - \lambda  \boldsymbol{w} 
 \end{equation} 
 Starting from scratch, the update procedure is expected to refine the model trial after trial 
 using the local estimator $\boldsymbol{g}(\underline{\mathbf{x}}, y) - \lambda \boldsymbol{w}$,
@@ -979,14 +979,14 @@ A 32-channels EEG signal was recorded during the whole experiment, sampled at 10
 % our vectors after the following light preprocessing step.
 % Each trial is composed of many flashes. 
 The whole experiment is divided in sequences of $12 \times 5$  flashes, corresponding to one letter spelling trial.
-For each series of 60 flashes,  a [1-20] Hz bandpass filter is applied.
+For each series of 60 flashes,  a 1-20 Hz bandpass filter is applied.
 Then for each flash time $t$, a 600 ms subsample $\mathbf{s}_{t:t+600 \text{ms}}$ is taken, 
 a common reference average substraction is applied, followed by a channel-by-channel normalization.
 Such a sample excerpt is presented on figure \ref{fig:EEG}.
 The sample is then vectorized and put in its category $\in {1,...,K}$ (row or column number).
 With a 100Hz sampling, the dimension of each  data vector is $32 \times 60 = 1920$.
 Then a set of multiple ERP observations is constructed the following way:
-for $k \in 1..12$, calculate class average $\boldsymbol{x}_k$ and normalize it.
+For $k \in 1,...,12$, calculate class average $\boldsymbol{x}_k$ and normalize it.
 Finally, construct 2 multi-ERP set, i.e. $\underline{\mathbf{x}}^\text{row} = (\boldsymbol{x}_1,...,\boldsymbol{x}_6)$ 
 and $\underline{\mathbf{x}}^\text{column} = (\boldsymbol{x}_7,...,\boldsymbol{x}_{12})$.
 
@@ -1056,7 +1056,7 @@ For each subject, the rate of correct spelling is then calculated
 %{\bf --~A~--}\hspace{5cm}{\bf --~B~--}
 %}
 \caption{Spelling improvement during P300-speller experiment (mean over 20 subjects). 
-Thin gray lines: individual improvement. Thick line: average improvement. 
+Thin gray lines: Individual improvement. Thick line: Average improvement. 
 Left: Softmax policy gradient. Right: Argmax policy gradient. 
 %{\bf --~B~--} 
 %Softmax scores obtained in the case of true positives (TP), false positives (FP), false negatives (FN) 
@@ -1186,9 +1186,9 @@ training session, which of course challenges the genuine online approach.
 \centerline{
  \includegraphics[width=\linewidth]{figs/fig_filter_adapt}
 }
-\caption{Left: classification improvement after a 25-trials training session (mean over 20 subjects), 
+\caption{Left: Classification improvement after a 25-trials training session (mean over 20 subjects), 
 using linear argmax policy gradient (with $\eta = 10^{-1}$, $\lambda = 10^{-1}$ and $p=5$). 
-Thin gray lines: individual improvement. Thick line: average improvement. The right figures compare the 
+Thin gray lines: Individual improvement. Thick line: Average improvement. The right figures compare the 
 final performance to the initial one, subject by subject, in absolute values (upper right) and in
 difference (lower right).}
 \label{fig:filter_adapt}
@@ -1201,7 +1201,7 @@ We present in figure \ref{fig:filter_adapt} the average rate of correct spelling
 following a 25-trials training session. The initial performance (around 85\%) is similar to 
 the performance of a standard LDA classifier. Then, a significant improvement is observed, approaching
 90\% correct in the last trials of the session.
-Interestingly, this improvement can be compared between subjects: the performance improvement
+Interestingly, this improvement can be compared between subjects: The performance improvement
 appears negligible for the stronger subjects (around 2 \% when the initial rate is > 80\%) while it
 is significantly better (from 6 to 10\%) for subjects whose initiation rate is < 80\%. 
 This differential improvement appears interesting for the purpose of reducing the inter-subject
@@ -1241,7 +1241,7 @@ the reward sent to the algorithm is the reverse of what it should be, i.e. $r^-$
  \includegraphics[width=\linewidth]{figs/fig_invalid}
 }
 \caption{Average spelling rate over 20 subjects, with different reward reliabilities, and electrode break
-at trial \# 101. Left: online recalibration only. Right: online recalibration + argmax policy gradient.
+at trial \# 101. Left: Online recalibration only. Right: Online recalibration + argmax policy gradient.
 $\eta = 10^{-1}$, $\lambda = 10^{-1}$. The horizontal dots show the final spelling rate in the absence of 
 adaptation.}
 \label{fig:invalid}
@@ -1265,7 +1265,7 @@ presented in the previous experiment.
 The effect of 
 a single electrode break (out of 32) appears quite strong, with a big drop from almost 85\% correct to less than
 75\% correct.
-As expected, a decrease in reward reliability degrades the adaptation
+As expected, a decrease in reward reliability deteriorates the adaptation
 and recovery capabilities.
 The left figure (online recalibration only) indicates that good recovery capabilities are obtained 
 with even 30\% misleading rewards.
@@ -1282,7 +1282,7 @@ following the initial calibration and after the electrode break-out.
 This specific effect of the policy gradient is only sensible when the rate of misleading rewards is less than 30\%, otherwise no 
 significant improvement is observed.
 This can be considered an empirical limit to the policy gradient effectivity in the context of the
-P300 speller: if the rate of valid rewards is
+P300 speller: If the rate of valid rewards is
 less than (or equal to) 70\%, a simple occasional recalibration may be sufficient for online adaptivity to environmental
 changes. In the other case,  policy gradient adaptation is worth using in addition to the online recalibration.
 This limit is consistent with our theoretical estimate of policy gradient robustness, since the lack of reward reliability may come from 
@@ -1338,7 +1338,7 @@ We have considered different experimental conditions. The first experiment (star
 has shown the consistency of our update formula with a fast and robust improvement of the 
 correct spelling rate in few time steps.
 In a second experiment, we have considered the case of the online recovery that is expected to follow 
-unforseen impairments. 
+unforseen events. 
 The spelling error information, as typically contained in a backspace hit, has been shown useful for the device adaptivity to unexpected changes. 
 Combined with a specific failure detection algorithm, the policy gradient has been shown to appropriately
 adapt the classifier to the new situation, at the condition 
@@ -1456,7 +1456,7 @@ This research was partly supported by french ANR ``d\'efis'' project CO-ADAPT (A
 EEG data kindly provided by J\'er\'emie Mattout and Emmanuel Maby from INSERM U1028. 
 
 \bibliographystyle{IEEEtran}
-\bibliography{biblio}
+\bibliography{biblio-copie}
 
 \end{document}
 
