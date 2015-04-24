@@ -98,7 +98,7 @@
 % have to be run twice to clear warning/error messages.
 
 \usepackage[dvips]{graphicx}
-\graphicspath{{figs}}
+\graphicspath{{figs-copie}}
 \DeclareGraphicsExtensions{.eps}
 
 \usepackage{amssymb,amsmath,array}
@@ -475,7 +475,7 @@ the conditions of real experiments.
 We show in a first experiment that a systematic improvement of the spelling rate 
 is obtained for all subjects in the absence of initial calibration.
 In a second experiment, we consider the case of the online recovery that is expected to follow 
-unforeseen impairments. 
+failed electrodes. 	
 Combined with a specific failure detection algorithm, the spelling error information 
 (typically contained in a ``backspace'' hit) 
 is shown useful for the policy gradient to
@@ -949,7 +949,7 @@ a correct but slowed down convergence even with a significant proportion of rewa
 
 \begin{figure}
 \centerline{
- \includegraphics[width=\linewidth]{figs/fig_EEG}
+ \includegraphics[width=\linewidth]{figs-copie/fig_EEG}
 }
 \caption{32-channels EEG signal excerpt. 
 Row or column tags are shown on top and stars denotes target row or column (here target row = 6, target column = 8).
@@ -1049,7 +1049,7 @@ For each subject, the rate of correct spelling is then calculated
 
 \begin{figure}
 \centerline{
- \includegraphics[width=\linewidth]{figs/PG_softmax}
+ \includegraphics[width=\linewidth]{figs-copie/PG_softmax}
  %\includegraphics[width=0.5\linewidth]{figs/fig_PG_pi}
 }
 %\centerline{
@@ -1157,7 +1157,7 @@ online improvement procedure.
 
 \begin{figure}
 \centerline{
- \includegraphics[width=\linewidth]{figs/fig_filter_2}
+ \includegraphics[width=\linewidth]{figs-copie/fig_filter_2}
 }
 \caption{xDAWN Spatial filter applied on the EEG signal after a 25 trials training session. The 5 spatial filters (upper bars) define a new
 signal that differently combine the initial 32 electrodes. The observation signal is now reduced to 5
@@ -1184,7 +1184,7 @@ training session, which of course challenges the genuine online approach.
 
 \begin{figure}
 \centerline{
- \includegraphics[width=\linewidth]{figs/fig_filter_adapt}
+ \includegraphics[width=\linewidth]{figs-copie/fig_filter_adapt}
 }
 \caption{Left: Classification improvement after a 25-trials training session (mean over 20 subjects), 
 using linear argmax policy gradient (with $\eta = 10^{-1}$, $\lambda = 10^{-1}$ and $p=5$). 
@@ -1238,7 +1238,7 @@ the reward sent to the algorithm is the reverse of what it should be, i.e. $r^-$
 
 \begin{figure}
 \centerline{
- \includegraphics[width=\linewidth]{figs/fig_invalid}
+ \includegraphics[width=\linewidth]{figs-copie/fig_invalid}
 }
 \caption{Average spelling rate over 20 subjects, with different reward reliabilities, and electrode break
 at trial \# 101. Left: Online recalibration only. Right: Online recalibration + argmax policy gradient.
