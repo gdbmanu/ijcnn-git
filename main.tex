@@ -543,7 +543,7 @@ After a classifier has been trained, the subject is expected to handle the inter
 of spelling words autonomously.
 However, many changes are expected to take place during subsequent use and
 the quality of the signal (and 
-thus the accuracy of the interface) is known to progessively deteriorate over time \cite{Shenoy2006}:
+thus the accuracy of the interface) is known to progressively deteriorate over time \cite{Shenoy2006}:
 Some electrodes may accidentally be displaced or unstick from the scalp, the conductivity of the scalp itself 
 may change during the experiment, 
 and the level of attention of the subject may evolve, etc. Moreover, experimental 
@@ -1157,12 +1157,16 @@ online improvement procedure.
 
 \begin{figure}
 \centerline{
- \includegraphics[width=\linewidth]{figs-copie/fig_filter_2}
+ %\includegraphics[width=\linewidth]{figs-copie/fig_filter_2}
+ \includegraphics[width=\linewidth]{figs-copie/ijcnn-eeg-filt}
+ }
+\caption{xDAWN Spatial filter applied on the EEG signal after a 25 trials training session. 
+(Upper row) Bar representation of the 5 first spatial filters obtained with the xDAWN preprocessing, with initial 32 labels: Fp1, Fp2, F7, F3, Fz, F4, F8, FC5, FC1, FC2, FC6, T7, C3, Cz, C4, T8, TP9, CP5, CP1, CP2, CP6, TP10, P7, P3, Pz, P4, P8, PO9, O1, Oz, O2 and PO10. 
+(Middle row) Azimuthal scalp projection of the same 5 spatial filters.
+(Lower figure) Filtered observation signal on the 5
+first channels, where the dashed square indicates 
+a 600 ms sample following a flash on column 8.   
 }
-\caption{xDAWN Spatial filter applied on the EEG signal after a 25 trials training session. The 5 spatial filters (upper bars) define a new
-signal that differently combine the initial 32 electrodes. The observation signal is now reduced to 5
-channels, each channel having the role of a ``virtual electrode'' (lower figure), where the dashed square indicates 
-a 600 ms sample following a flash on column 8 (same sample as in figure 1).}
 \label{fig:filter}
 \end{figure}
 
@@ -1268,8 +1272,8 @@ a single electrode break (out of 32) appears quite strong, with a big drop from 
 As expected, a decrease in reward reliability deteriorates the adaptation
 and recovery capabilities.
 The left figure (online recalibration only) indicates that good recovery capabilities are obtained 
-with even 30\% misleading rewards.
-Only with 50\% misleading rewards the performance degrades, but still can recover from the artificial electrode breakout,
+with even 30\% feedback noise.
+Only with 50\% feedback noise the performance degrades, but still can recover from the artificial electrode breakout,
 showing the robustness of the xDAWN filter to false positives (since only positive rewards are
 considered in the filter and classifier updates). It is interesting to remark that the sole online recalibration  
 seems capable of a recovery up to 78\% correct spelling when half of the rewards are fooling the process. 
@@ -1277,9 +1281,17 @@ This counter-intuitive result can be explained by the fact that in a context of 
 most of the false rewards are false negative rewards, whose effect is weaker than the true positives,
 as $|r^-|<<|r^+|$ in our setting.
 
+\begin{figure}[t!]
+	\centerline{
+		\includegraphics[width=0.9\linewidth]{figs-copie/ijcnn-subj-break-n01.eps}
+	}
+	\caption{Individual spelling rates (subjects \#1 to \#20), with 10\% feedback noise. Online recalibration + argmax policy gradient (90\% valid rewards).	$\eta = 10^{-1}$, $\lambda = 10^{-1}$.}
+	\label{fig:indiv-n01}
+\end{figure}
+
 When considering both online recalibration and policy gradient (right figure), a significant improvement is obtained both during the first steps 
 following the initial calibration and after the electrode break-out.
-This specific effect of the policy gradient is only sensible when the rate of misleading rewards is less than 30\%, otherwise no 
+This specific effect of the policy gradient is only sensible when the feedback noise is less than 30\%, otherwise no 
 significant improvement is observed.
 This can be considered an empirical limit to the policy gradient effectivity in the context of the
 P300 speller: If the rate of valid rewards is
@@ -1299,6 +1311,19 @@ when compared to the sole online recalibration, with a final rate approaching 86
 that can be obtained in the stationary case).
 The gain of adaptivity obtained by online recalibration is not at the expense of the improvement
 due to the policy gradient. The benefits of the two approaches thus seem to appropriately add up.
+
+	The figures \ref{fig:indiv-n01} and \ref{fig:indiv-n03} report the data of the same experiment (as shown in figure \ref{fig:invalid}), in a subject-by-subject fashion. Only the combination of online recalibration and Policy gradient is shown. Figure \ref{fig:indiv-n01} gives the average spelling rates across trials in the 10\% feedback noise case, while figure \ref{fig:indiv-n03} reports the 30\% feedback noise case. 
+When looking on a subject-by-subject basis, the inter-individual differences clearly dominate the intra-individual changes.  Approximately half of the subjects are good performers, showing robust spelling rates above 85\% whatever the conditions. The rest of the subjects show variable performances, but all subjects show a significant spelling recovery following the electrode break.  
+
+
+
+\begin{figure}[t!]
+	\centerline{
+					\includegraphics[width=0.9\linewidth]{figs-copie/ijcnn-subj-break-n03b.eps}	
+				}	
+	\caption{Individual spelling rates (subjects \#1 to \#20), with 30\% feedback noise. Online recalibration + argmax policy gradient (70\% valid rewards).	$\eta = 10^{-1}$, $\lambda = 10^{-1}$.}
+	\label{fig:indiv-n03}
+\end{figure}
 
 %Contrarily to the classifier, the spatial filter is not adaptive since it requires to build a data model 
 %on the basis of a training session.
