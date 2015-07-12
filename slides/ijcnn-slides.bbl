@@ -1,0 +1,45 @@
+\begin{thebibliography}{}
+
+\bibitem[Congedo et~al., 2013]{Congedo13}
+Congedo, M., Barachant, A., and Andreev, A. (2013).
+\newblock A new generation of brain-computer interface based on riemannian
+  geometry.
+\newblock {\em CoRR}, abs/1310.8115.
+
+\bibitem[Daucé et~al., 2013]{Dauce2013}
+Daucé, E., Proix, T., and Ralaivola, L. (2013).
+\newblock Fast classifier adaptation in non-stationary environments: a policy
+  gradient application to the bci p300-speller ``oddball'' paradigm.
+\newblock In {\em proc. of ESANN 2013}, pages 197--202.
+
+\bibitem[Kindermans et~al., 2012a]{Kindermans12}
+Kindermans, P., Verstraeten, D., and Schrauwen, B. (2012a).
+\newblock A bayesian model for exploiting application constraints to enable
+  unsupervised training of a p300-based bci.
+\newblock {\em PloS one}, 7(4).
+
+\bibitem[Kindermans and Schrauwen, 2013]{Kindermans2013}
+Kindermans, P.-J. and Schrauwen, B. (2013).
+\newblock Dynamic stopping in a calibration-less p300 speller.
+\newblock In {\em 5th International Brain-Computer Interface Meeting}.
+
+\bibitem[Kindermans et~al., 2012b]{Kindermans12b}
+Kindermans, P.-J., Verschore, H., Verstraeten, D., and Schrauwen, B. (2012b).
+\newblock A p300 bci for the masses: Prior information enables instant
+  unsupervised spelling.
+\newblock In {\em Advances in Neural Information Processing Systems (NIPS
+  2012)}.
+
+\bibitem[Li and Guan, 2006]{Li06}
+Li, Y. and Guan, C. (2006).
+\newblock An extended em algorithm for joint feature extraction and
+  classification in brain-computer interfaces.
+\newblock {\em Neural Computation}, 18:2730--2761.
+
+\bibitem[Perrin, 2012]{Perrin12}
+Perrin, M. (2012).
+\newblock {\em Coadaptation cerveau machine pour une intteraction optimale
+  :application au P300-speller}.
+\newblock PhD thesis, Universit\'e Claude Bernard - Lyon 1.
+
+\end{thebibliography}

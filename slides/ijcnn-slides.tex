@@ -1,0 +1,497 @@
+
+\documentclass{beamer}
+
+%\usetheme{Hannover}
+%\usecolortheme{seahorse}
+
+\usecolortheme{whale}
+
+%\usecolortheme{beaver}
+%\usecolortheme{orchid}
+
+%\usecolortheme{crane}
+%\useoutertheme{smoothbars}
+\useinnertheme[shadow=false]{rounded}
+\useoutertheme[footline=authortitle]{miniframes}
+
+\usebackgroundtemplate%
+{%		
+	\hspace*{-0.3cm}
+	\includegraphics[width=0.5\paperwidth]{logo_ins.png}
+	\hspace*{5cm}
+	\includegraphics[width=5.5\paperwidth]{logo_ins.png}
+}
+
+\usepackage{multimedia}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{multimedia}
+\usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage[francais]{babel}
+
+\setbeamertemplate{footline}[text line]{%
+	\parbox{\linewidth}{ \vspace*{-15pt}
+		\hspace{3cm}
+		\insertshortauthor 
+		\hfill %\hspace*{2cm} 
+		IJCNN 2015 \hfill \insertpagenumber}}
+
+% Avec cette commande, le plan sera rappel? 
+% ? chaque changement de section
+\AtBeginSection[]{
+  \frame<handout:0>{
+    \frametitle{Plan}
+    \tableofcontents[current]
+  }
+}
+
+\title[Fast classifier adaptation in non-stationary environments]
+{Reward-based online learning in non-stationary environments: 
+	Adapting a P300-speller with a ``Backspace'' key}
+
+
+\author[Daucé et al.]{author1 \inst{1} \and author2 \inst{2}}
+
+                      
+\author{Emmanuel Daucé \inst{1} \inst{2} \and Timothée Proix \inst{2} \and Liva Ralaivola \inst{3}}
+
+\institute[Centrale Marseille / Aix-Marseille Université]{\inst{1} Ecole Centrale Marseille \and %
+                      \inst{2} INS - Aix-Marseille Université - Inserm UMR 1106 \and %
+                      \inst{3} LIF - Aix-Marseille Université - CNRS UMR 7229}
+
+\begin{document}
+
+\begin{frame}\titlepage
+\end{frame}
+
+\begin{frame}\frametitle{Table of contents}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\subsection*{}
+
+\begin{frame}\frametitle{Brain-Computer Interfaces}
+	\begin{itemize}
+		\item Embedded classifiers:
+		\begin{itemize}
+			\item real-time
+			\item noisy (EEG)
+			\item subject/use case specific
+			\item non-stationary 
+		\end{itemize}
+		$\Rightarrow$ Adaptive Learning  
+		\item Brain Computer Interfaces, a tool for :
+		\begin{itemize}
+			\item Communication (in the absence of a motor capabilities) 
+			\item Brain monitoring / neurofeedback
+			\item Motor rehabilitation
+		\end{itemize}
+		\item ``CO-ADAPT'' project : INRIA Sophia/ INSERM Lyon/ CNRS LATP, ... (French ANR funding)
+		\begin{itemize}
+			\item ``co-adaptive'' motor imagery
+			\item ``co-adaptive'' P300 speller
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Embedded classifiers}
+	\begin{itemize}
+		\item Classification problem : sources $\rightarrow$ signal $\rightarrow$ features extraction $\rightarrow$ classification
+		\begin{itemize}
+			\item adaptive feature extraction
+			\item adaptive classification
+		\end{itemize}
+		\item Online learning : ``light'' classifier update at each processing step
+		\begin{itemize}
+			\item supervised online learning: stochastic gradient descent
+			\item unsupervised online learning: online mobile centers (K-means, EM,...) 
+			\item reward-based online learning: stochastic classifiers + policy/value iteration 
+			\begin{itemize}
+				\item exploration/exploitation trade-off
+				\item which reward?
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame} \frametitle{P300 speller}
+	\begin{itemize}
+		\item EEG : 
+		\begin{itemize}
+			\item 10 - 60 channels (surface electric potential - H Berger, 1929)
+			\item high temporal resolution / low spatial resolution
+			\item noisy, non-reliable,... ``Evoqued potentials'' technique
+			\item the ``P300'' ERP is ``surprise'' effect (``oddball'' paradigm)
+		\end{itemize}
+	\end{itemize}
+	\begin{columns}
+		\begin{column}{0.75\linewidth}
+			\begin{itemize}
+				\item P300-speller (Farwell and Donchin, 1988):
+				\begin{itemize}
+					\item based on the ``oddball'' paradigm
+					\item 6 x 6 letters grid
+					\item random row/column magnification (every 150-300 ms)
+					\item row/column evidence build-up + argmax choice
+					\item low SNR / low bit rate (many flashes for one letter)
+					\item spelling accuracy tends to decrease in the long run
+				\end{itemize}
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.25\linewidth}
+			\centerline{
+				\includegraphics[width=\linewidth]{P300_grid.png}
+			}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{EEG data (from Inserm U1028, Lyon, France)}
+	\includegraphics[width=\linewidth]{EEG.png}
+\end{frame}
+
+\begin{frame}\frametitle{Data processing pipeline}
+	\includegraphics[width=\linewidth]{overview.png}
+\end{frame}
+
+\begin{frame}\frametitle{P300-speller roadmap}
+	\begin{itemize}
+		\item Transfer learning \footnotesize{\cite{Kindermans12b, Congedo13}}: 
+		\begin{itemize}
+			\item Across subjects 
+			\item generic classifier ``pre-learning''
+			\item smart initialization
+		\end{itemize}
+		\item Optimal display
+		\item Evidence build-up \footnotesize{\cite{Perrin12,Kindermans2013}}:
+		\begin{itemize}
+			\item Probabilistic classifier : posterior estimate
+			\item Evidence accumulation
+			\item Threshold-based dynamic stopping
+			\item Speed-accuracy trade-off
+		\end{itemize}
+		\item Online learning : 
+		\begin{itemize}
+			\item Toward a subject-specific classifier
+			\item Recover from unexpected changes
+			\item Different approaches :
+			\begin{itemize}
+				\item EM \footnotesize{\cite{Li06,Kindermans12}}
+				\item RL \footnotesize{\cite{Dauce2013}}
+			\end{itemize}
+		\end{itemize}  
+	\end{itemize}
+	
+\end{frame}
+%\section{Oddball classification}
+%\subsection*{}
+%
+%\begin{frame} \frametitle{P300 speller}
+%\begin{itemize}
+%  \item EEG : 
+%  \begin{itemize}
+%    \item 10 - 60 channels (surface electric potential - H Berger, 1929)
+%    \item high temporal resolution / low spatial resolution
+%    \item noisy, non-reliable,... ``Evoqued potentials'' technique
+%    \item the ``P300'' ERP is ``surprise'' effect (``oddball'' paradigm)
+%  \end{itemize}
+%\end{itemize}
+%\begin{columns}
+% \begin{column}{0.75\linewidth}
+%\begin{itemize}
+%  \item P300-speller (Farwell and Donchin, 1988):
+%    \begin{itemize}
+%      \item based on the ``oddball'' paradigm
+%      \item 6 x 6 letters grid
+%      \item random row/column magnification (every 150-300 ms)
+%      \item row/column evidence build-up + argmax choice
+%      \item low SNR / low bit rate (many flashes for one letter)
+%      \item spelling accuracy tends to decrease in the long run
+%    \end{itemize}
+%\end{itemize}
+%\end{column}
+%\begin{column}{0.25\linewidth}
+% \centerline{
+% \includegraphics[width=\linewidth]{P300_grid.png}
+% }
+%\end{column}
+%\end{columns}
+%\end{frame}
+%
+%\begin{frame}\frametitle{EEG data (from Inserm U1028, Lyon, France)}
+% \includegraphics[width=1\linewidth]{EEG.png}
+%\end{frame}
+%
+%
+%\begin{frame}\frametitle{The ``oddball'' classification problem}
+%\begin{columns} 
+% \begin{column}{0.5\linewidth}
+% \includegraphics[width=\linewidth]{oddball_s.png}
+% \end{column}
+% \begin{column}{0.5\linewidth}
+%  \begin{itemize}
+%   \item Set of $K$ observations
+%   \item one vs. ``the rest'' classification 
+%  \end{itemize}
+% \end{column}
+%
+%\end{columns}
+%\begin{align}
+% P(k|x_1,...,x_K) &=  \frac{P(x_1,...,x_K,k)}{P(x_1,...,x_K)}\nonumber\\
+%                  &= \frac{                 P^+(x_k)          \Pi_{\ell \neq k}        P^-(x_\ell)         }
+%                          { \sum_{k^\prime} P^+(x_{k^\prime}) \Pi_{\ell^\prime \neq k^\prime} P^-(x_{\ell^\prime})} \nonumber
+%                  &= \frac{\frac{P+(\boldsymbol{x}_k)}{P^-(\boldsymbol{x}_k)}}
+%                                          {\sum_{\ell} \frac{P^+(\boldsymbol{x}_\ell)}{P^-(\boldsymbol{x}_\ell)}}      
+%\end{align}
+%
+%\end{frame}
+%
+%
+%
+%\begin{frame}  \frametitle{The ``oddball'' classification and probabilistic classifiers :}
+%  \begin{itemize}
+%  \item The oddball classification problem is ``in between'' binary and multiclass problems. 
+%  \begin{footnotesize}
+%    \begin{tabular}{|c||c|c|}
+%      \hline
+%      & {\bf Model-based} & {\bf Model-free (Softmax-linear)} \\
+%      \hline\hline
+%      Binary  & 
+%      $P(1|\boldsymbol{x}) = \frac{1}{1 + \frac{P^-(\boldsymbol{x})}{P^+(\boldsymbol{x})}}$ &
+%      $\pi(\boldsymbol{x};\boldsymbol{w}, b) = \frac{1}{1 + exp(- \boldsymbol{x} \boldsymbol{w}^T + b)}$\\
+%      \hline
+%      ``Oddball''  & 
+%      $P(k|\boldsymbol{x}_1,...,\boldsymbol{x}_K) = \frac{\frac{P^+(\boldsymbol{x}_k)}{P^-(\boldsymbol{x}_k)}}
+%                                          {\sum_{\ell} \frac{P^+(\boldsymbol{x}_\ell)}{P^-(\boldsymbol{x}_\ell)}}$ &
+%                                     
+%      $\pi_k(\boldsymbol{x}_1,...,\boldsymbol{x}_K;\boldsymbol{w}) =  \frac{\exp(\boldsymbol{x}_k \boldsymbol{w}^T)}
+%                                             {\sum_\ell  \exp(\boldsymbol{x}_\ell \boldsymbol{w}^T)}$\\
+%      \hline
+%      Multiclass  &
+%      $P(k|\boldsymbol{x}) = \frac{P(\boldsymbol{x}|k)} {\sum_\ell P(\boldsymbol{x}|\ell)}$  &
+%      $\pi_k(\boldsymbol{x}; \boldsymbol{w}_1, ..., \boldsymbol{w}_K) = \frac{\exp(\boldsymbol{x} \boldsymbol{w}_k^T)}{\sum_\ell \exp(\boldsymbol{x} \boldsymbol{w}_\ell^T)}$\\
+%      \hline
+%    \end{tabular}  
+%  \end{footnotesize}
+%  \item The ``objective'' $\boldsymbol{w}$ is $(\boldsymbol{\mu}^+ - \boldsymbol{\mu}^-)\Sigma^{-1}$ (Multivariate Homoscedastic Gaussian model)
+%  \end{itemize}
+%\end{frame}
+
+\section{Reward-based learning}
+\subsection*{}
+
+\begin{frame} \frametitle{Reinforcement learning : multiple approaches}
+  \begin{itemize}
+    \item general RL problem :
+    \begin{itemize}
+      \item observations : $x_1$, ..., $x_T$
+      \item policy (random decision = exploration) : $\pi(x,y) = P(y|x)$
+      \item decisions : $y_1$, ..., $y_T$
+      \item reward : $r_T \in \mathbb{R}$ 	
+    \end{itemize}
+    \item Task : try to improve the politics for increasing time/trial
+    \begin{itemize}
+      \item Actor-critic / Q-learning : 
+      \begin{itemize}
+       \item delayed reward
+       \item discrete state/action space (LUT)
+       \item separates Value update / Decision making 
+      \end{itemize}
+      \item Multi-armed bandit : 
+      \begin{itemize}
+        \item instant reward
+        \item no states (!)
+      \end{itemize}  
+      \item Policy-gradient : 
+      \begin{itemize}
+        \item instant or delayed rewards
+        \item discrete or continuous state/actions space
+        \item direct update of the decision
+      \end{itemize}  
+    \end{itemize}
+    %\item The policy gradient approach: 
+    %\begin{itemize}
+    %  \item Direct improvement of the policy $\pi_\mathbf{w}$
+    %  \item by changing the set of parameters with the policy gradient estimate $\hat{E}(\nabla_\mathbf{w}r\ln\pi_\mathbf{w}(x,y))$ (Williams, 1992)
+    %\end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Rewarded classifier}
+ \begin{itemize}
+  \item Optimal $\boldsymbol{w}$ unknown $\rightarrow$ model-free, trial and error
+  \item Online stochastic classifier :
+  \begin{itemize}
+    \item read input observations set : $\underline{\mathbf{x}} = (\boldsymbol{x}_1,...,\boldsymbol{x}_K)$
+    \item give a score to every class : $\forall k, \pi_k(\underline{\mathbf{x}};\boldsymbol{w}) =  \frac{\exp(\boldsymbol{x}_k \boldsymbol{w}^T)}
+                                             {\sum_{l}  \exp(\boldsymbol{x}_l \boldsymbol{w}^T)}$ 
+    \item choose the response at random (Softmax choice)
+    \item read the \emph{reward} $r$
+    \item update $\boldsymbol{w}$
+  \end{itemize}
+  \item Which reward ?
+  \begin{itemize}
+    \item ``error'' potential after the classifier's response:
+ \centerline{\includegraphics[width=0.7\linewidth]{online_P300.pdf}}
+    \item ``UNDO'' key on the virtual keyboard
+  \end{itemize}
+ \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Learning and forgetting : Regularized Policy gradient update}
+ \begin{itemize}
+  \item Regularized optimization ($\lambda$ hyperparameter): 
+  $$\max _{\boldsymbol{w}} \mathcal{H} = \max _{\boldsymbol{w}} E(r) - \frac{\lambda}{2}||\boldsymbol{w}||^2$$
+  \item Regularized gradient ascent : 
+  \footnotesize{$\nabla_w \mathcal{H} = {E}(r\nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w})) - \lambda \boldsymbol{w}$ }
+  \begin{itemize}
+    \item One-sample estimate (stochastic gradient) : 
+    $$ E(  r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}},\mathbf{w}) ) 
+       \simeq r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) $$
+    \item Online update (learning rate $\eta << 1$):
+    \begin{align}
+      \boldsymbol{w} &\leftarrow \boldsymbol{w} + \eta ( r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) - \lambda \boldsymbol{w}) \nonumber \\
+                     &= (1 - \eta \lambda) \boldsymbol{w} + \eta r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) \nonumber
+    \end{align}
+  \end{itemize}
+  \item The old examples ``fade away'' as time passes
+  $\rightarrow$ tracking algorithm and novelty detection (Kivinen et al, 2010)
+  \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{The ``oddball'' update case}
+  \begin{itemize}
+  \item Policy gradient:
+  \begin{align}
+    \boldsymbol{g}(\underline{\mathbf{x}},y) &= r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) \nonumber \\
+                                             &= r \left(\boldsymbol{x}_y - \sum_k  \pi_k(\underline{\mathbf{x}};\boldsymbol{w}) \boldsymbol{x}_k \right)\nonumber
+  \end{align}
+  \item Update :
+  $$
+\boldsymbol{w}_t = (1-\eta\lambda) \boldsymbol{w}_{t-1} + \eta r_t \left( \boldsymbol{x}_{y_t,t} 
+- \sum_{k=1}^K  \pi_k(\underline{\mathbf{x}};\boldsymbol{w}_{t-1}) \boldsymbol{x}_{k,t} \right) 
+$$  
+\end{itemize}
+  
+\end{frame}
+
+\begin{frame}\frametitle{Binary rewards}
+TODO
+\end{frame}
+
+\section{Simulations}
+\subsection*{}
+
+\begin{frame}
+ \begin{itemize}
+  \item EEG data : 20 subjects $\times$ 32 EEG channels $\times$ 220 trials $\times$ 12 row/columns $\times$ 5 flashes per row/column 
+  \item data preprocessing. For each trial :
+  \begin{itemize}
+   \item 600 ms sample after each flash (100 Hz sampling)
+   \item Bandpass [1-20] Hz filter
+   \item common average reference substraction + channel normalization 
+   \item 5 repetitions : average response calculation per row/column 
+   \item vector construction : $\boldsymbol{x} \in \mathbb{R}^{32 \times 60}$, $||\boldsymbol{x}||=1$
+   \item set construction : $\underline{\mathbf{x}}^\text{row} = (\boldsymbol{x}_1^\text{row}, ..., \boldsymbol{x}_6^\text{row})$, 
+   $\underline{\mathbf{x}}^\text{col} = (\boldsymbol{x}_1^\text{col}, ..., \boldsymbol{x}_6^\text{col})$
+  \end{itemize}
+  \item cross-validation : for one ($\eta$, $\lambda$) couple:
+  \begin{itemize}
+    \item learning from scratch : $w_0 = 0$
+    \item simulated rewards : $r \in (r^+, r^-)$ with $r^+ = 5$, $r^- = -1$.
+    \item 1000 simulations $\times$ 20 subject with shuffled spelling order
+    \item ``softmax'' and ``argmax'' classifier variants
+  \end{itemize}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Softmax/Argmax spelling improvement}
+\centerline{\includegraphics[width=0.7\linewidth]{PG_softmax.png}}
+\end{frame}
+
+\begin{frame}\frametitle{Classification improvement after a 25-trials training session}
+\centerline{
+	\includegraphics[width=0.7\linewidth]{fig_filter_adapt}
+}
+\end{frame}
+
+\begin{frame}\frametitle{Global recovery after electrode break
+		}
+	\centerline{
+		\includegraphics[width=0.7\linewidth]{fig_invalid}
+	}
+\end{frame}
+
+\begin{frame}\frametitle{Individual recovery, feedback noise = 10\%}
+	\centerline{
+		\includegraphics[width=0.7\linewidth]{ijcnn-subj-break-n01}
+	}
+\end{frame}
+
+\begin{frame}\frametitle{Individual recovery, feedback noise = 30\%}
+	\centerline{
+		\includegraphics[width=0.7\linewidth]{ijcnn-subj-break-n03}
+	}
+\end{frame}
+
+\section{Conclusion}
+\subsection*{}
+
+\begin{frame}\frametitle{Conclusion}
+ \begin{itemize}
+  \item P300-speller implements the ``oddball'' classification problem 
+  \item ``instant'' reward-based gradient descent is efficient in the P300-speller case:
+    \begin{itemize}
+      \item fast learning : clean class separation + low-variance gradient
+      \item allows to track environmental changes
+    \end{itemize}
+    \item But :
+    \begin{itemize}
+      \item high variability between subjects
+      \item reward extraction problem (difficulty shift)
+      \item non-reliable rewards?
+    \end{itemize}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{Outlook and discussion}
+ \begin{itemize}
+  \item the oddball problem is a specific decision-making problem
+  \begin{itemize}
+    \item ``choose'' the element that fits the best the matching criterions in a set of $K$ candidates
+    \item update the matching criterions
+    \item the candidates are renewed at each trial
+  \end{itemize}
+  \item forgetting (and re-learning) is important in a non-stationary environment:
+  \begin{itemize}
+    \item ($\eta$, $\lambda$) change tracking 
+    \item $\lambda$ regulates the score separation
+    \item $ \frac{1}{\eta\lambda}$ is the sliding window 
+  \end{itemize}
+  \item reward-based learning is efficient in softmax/linear classifiers
+  \begin{itemize}
+  \item bridges between stochastic / probabilistic frameworks
+  \end{itemize}
+ \end{itemize}
+
+\end{frame}
+
+
+
+\bibliographystyle{apalike}
+\bibliography{biblio-bci}
+
+\end{document}
