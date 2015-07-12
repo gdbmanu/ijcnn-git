@@ -53,10 +53,10 @@
 	Adapting a P300-speller with a ``Backspace'' key}
 
 
-\author[Daucé et al.]{author1 \inst{1} \and author2 \inst{2}}
+%\author[Daucé et al.]{author1 \inst{1} \and author2 \inst{2}}
 
                       
-\author{Emmanuel Daucé \inst{1} \inst{2} \and Timothée Proix \inst{2} \and Liva Ralaivola \inst{3}}
+\author[Daucé et al.]{Emmanuel Daucé \inst{1} \inst{2} \and Timothée Proix \inst{2} \and Liva Ralaivola \inst{3}}
 
 \institute[Centrale Marseille / Aix-Marseille Université]{\inst{1} Ecole Centrale Marseille \and %
                       \inst{2} INS - Aix-Marseille Université - Inserm UMR 1106 \and %
@@ -75,7 +75,8 @@
 \subsection*{}
 
 \begin{frame}\frametitle{Brain-Computer Interfaces}
-	\begin{itemize}
+	\vspace{-.8cm}
+		\begin{itemize}
 		\item Embedded classifiers:
 		\begin{itemize}
 			\item real-time
@@ -103,6 +104,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}\frametitle{Embedded classifiers}
+	\vspace{-1cm}
 	\begin{itemize}
 		\item Classification problem : sources $\rightarrow$ signal $\rightarrow$ features extraction $\rightarrow$ classification
 		\begin{itemize}
@@ -124,8 +126,10 @@
 
 
 \begin{frame} \frametitle{P300 speller}
+	\vspace{-.8cm}
 	\begin{itemize}
 		\item EEG : 
+	\vspace{-.1cm}		
 		\begin{itemize}
 			\item 10 - 60 channels (surface electric potential - H Berger, 1929)
 			\item high temporal resolution / low spatial resolution
@@ -133,6 +137,7 @@
 			\item the ``P300'' ERP is ``surprise'' effect (``oddball'' paradigm)
 		\end{itemize}
 	\end{itemize}
+	\vspace{-.3cm}
 	\begin{columns}
 		\begin{column}{0.75\linewidth}
 			\begin{itemize}
@@ -160,12 +165,17 @@
 \end{frame}
 
 \begin{frame}\frametitle{Data processing pipeline}
-	\includegraphics[width=\linewidth]{overview.png}
+	\vspace{-1cm}
+	\centerline{
+		\includegraphics[width=.9\linewidth]{overview.png}
+	}
 \end{frame}
 
 \begin{frame}\frametitle{P300-speller roadmap}
+	\vspace{-.5cm}
 	\begin{itemize}
 		\item Transfer learning \footnotesize{\cite{Kindermans12b, Congedo13}}: 
+		\vspace{-.1cm}
 		\begin{itemize}
 			\item Across subjects 
 			\item generic classifier ``pre-learning''
@@ -173,6 +183,7 @@
 		\end{itemize}
 		\item Optimal display
 		\item Evidence build-up \footnotesize{\cite{Perrin12,Kindermans2013}}:
+		\vspace{-.1cm}
 		\begin{itemize}
 			\item Probabilistic classifier : posterior estimate
 			\item Evidence accumulation
@@ -180,6 +191,7 @@
 			\item Speed-accuracy trade-off
 		\end{itemize}
 		\item Online learning : 
+		\vspace{-.1cm}
 		\begin{itemize}
 			\item Toward a subject-specific classifier
 			\item Recover from unexpected changes
@@ -290,32 +302,38 @@
 \subsection*{}
 
 \begin{frame} \frametitle{Reinforcement learning : multiple approaches}
+	\vspace{-.6cm}
   \begin{itemize}
     \item general RL problem :
+    \vspace{-.1cm}
     \begin{itemize}
       \item observations : $x_1$, ..., $x_T$
       \item policy (random decision = exploration) : $\pi(x,y) = P(y|x)$
-      \item decisions : $y_1$, ..., $y_T$
+      \item responses : $y_1$, ..., $y_T$
       \item reward : $r_T \in \mathbb{R}$ 	
     \end{itemize}
     \item Task : try to improve the politics for increasing time/trial
+        \vspace{-.1cm}
     \begin{itemize}
-      \item Actor-critic / Q-learning : 
+      \item Actor-critic / Q-learning :
+          \vspace{-.1cm} 
       \begin{itemize}
-       \item delayed reward
+       \item temporal credit assignment (delayed reward)
        \item discrete state/action space (LUT)
-       \item separates Value update / Decision making 
+       \item Value update vs. action 
       \end{itemize}
       \item Multi-armed bandit : 
+          \vspace{-.1cm}
       \begin{itemize}
         \item instant reward
-        \item no states (!)
+        \item contextual bandit
       \end{itemize}  
       \item Policy-gradient : 
+          \vspace{-.1cm}
       \begin{itemize}
         \item instant or delayed rewards
         \item discrete or continuous state/actions space
-        \item direct update of the decision
+        \item direct update of the policy
       \end{itemize}  
     \end{itemize}
     %\item The policy gradient approach: 
@@ -326,13 +344,14 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Rewarded classifier}
+\begin{frame}{Rewards in classifiction}
+	\vspace{-1cm}
  \begin{itemize}
   \item Optimal $\boldsymbol{w}$ unknown $\rightarrow$ model-free, trial and error
   \item Online stochastic classifier :
   \begin{itemize}
     \item read input observations set : $\underline{\mathbf{x}} = (\boldsymbol{x}_1,...,\boldsymbol{x}_K)$
-    \item give a score to every class : $\forall k, \pi_k(\underline{\mathbf{x}};\boldsymbol{w}) =  \frac{\exp(\boldsymbol{x}_k \boldsymbol{w}^T)}
+    \item give a score to every class : $\forall k, \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) =  \frac{\exp(\boldsymbol{x}_k \boldsymbol{w}^T)}
                                              {\sum_{l}  \exp(\boldsymbol{x}_l \boldsymbol{w}^T)}$ 
     \item choose the response at random (Softmax choice)
     \item read the \emph{reward} $r$
@@ -342,29 +361,35 @@
   \begin{itemize}
     \item ``error'' potential after the classifier's response:
  \centerline{\includegraphics[width=0.7\linewidth]{online_P300.pdf}}
-    \item ``UNDO'' key on the virtual keyboard
+    \item ``BACKSPACE'' key on the virtual keyboard
   \end{itemize}
  \end{itemize}
-
 \end{frame}
 
-
 \begin{frame}\frametitle{Learning and forgetting : Regularized Policy gradient update}
+	\vspace{-.8cm}
  \begin{itemize}
-  \item Regularized optimization ($\lambda$ hyperparameter): 
+  \item Regularized optimization ($\lambda$ hyperparameter):
+  \vspace{-.4cm} 
   $$\max _{\boldsymbol{w}} \mathcal{H} = \max _{\boldsymbol{w}} E(r) - \frac{\lambda}{2}||\boldsymbol{w}||^2$$
+  \vspace{-.4cm}
   \item Regularized gradient ascent : 
-  \footnotesize{$\nabla_w \mathcal{H} = {E}(r\nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w})) - \lambda \boldsymbol{w}$ }
+  \footnotesize{$\nabla_w \mathcal{H} = {E}({\color{blue}r\nabla_\mathbf{w}\ln\pi(\underline{\mathbf{x}},y;\mathbf{w})}) - \lambda \boldsymbol{w}$ }
   \begin{itemize}
-    \item One-sample estimate (stochastic gradient) : 
-    $$ E(  r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}},\mathbf{w}) ) 
-       \simeq r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) $$
+    \item Gradient estimator (stochastic gradient) :
+    \vspace{-.2cm} 
+    $$
+    % E(  r \nabla_\mathbf{w}\ln\pi(\underline{\mathbf{x}},y,\mathbf{w}) ) 
+     %  \simeq 
+       \langle {\color{blue}r_t \nabla_\mathbf{w}\ln\pi(\underline{\mathbf{x}}_t,y_t;\mathbf{w})}\rangle_{1..T} $$
     \item Online update (learning rate $\eta << 1$):
+        \vspace{-.2cm} 
     \begin{align}
-      \boldsymbol{w} &\leftarrow \boldsymbol{w} + \eta ( r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) - \lambda \boldsymbol{w}) \nonumber \\
-                     &= (1 - \eta \lambda) \boldsymbol{w} + \eta r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) \nonumber
+      \boldsymbol{w} &\leftarrow \boldsymbol{w} + \eta ( {\color{blue}r \nabla_\mathbf{w}\ln\pi(\underline{\mathbf{x}},y;\mathbf{w})} - \lambda \boldsymbol{w}) \nonumber \\
+                     &= (1 - \eta \lambda) \boldsymbol{w} + \eta {\color{blue}r \nabla_\mathbf{w}\ln\pi(\underline{\mathbf{x}},y;\mathbf{w})} \nonumber
     \end{align}
   \end{itemize}
+  \vspace{-.2cm}
   \item The old examples ``fade away'' as time passes
   $\rightarrow$ tracking algorithm and novelty detection (Kivinen et al, 2010)
   \end{itemize}
@@ -376,20 +401,58 @@
   \begin{itemize}
   \item Policy gradient:
   \begin{align}
-    \boldsymbol{g}(\underline{\mathbf{x}},y) &= r \nabla_\mathbf{w}\ln\pi_y(\underline{\mathbf{x}};\mathbf{w}) \nonumber \\
-                                             &= r \left(\boldsymbol{x}_y - \sum_k  \pi_k(\underline{\mathbf{x}};\boldsymbol{w}) \boldsymbol{x}_k \right)\nonumber
+    \boldsymbol{g}(\underline{\mathbf{x}},y) &= r \nabla_\mathbf{w}\ln\pi(\underline{\mathbf{x}},y;\mathbf{w}) \nonumber \\
+    &= {\color{blue}r \left(\boldsymbol{x}_y - \sum_k  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) \boldsymbol{x}_k \right)}\nonumber
   \end{align}
   \item Update :
   $$
-\boldsymbol{w}_t = (1-\eta\lambda) \boldsymbol{w}_{t-1} + \eta r_t \left( \boldsymbol{x}_{y_t,t} 
-- \sum_{k=1}^K  \pi_k(\underline{\mathbf{x}};\boldsymbol{w}_{t-1}) \boldsymbol{x}_{k,t} \right) 
+\boldsymbol{w}_t = (1-\eta\lambda) \boldsymbol{w}_{t-1} + \eta{ \color{blue} r_t \left( \boldsymbol{x}_{y_t,t} 
+- \sum_{k=1}^K  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}_{t-1}) \boldsymbol{x}_{k,t} \right) }
 $$  
 \end{itemize}
   
 \end{frame}
 
-\begin{frame}\frametitle{Binary rewards}
-TODO
+\begin{frame}\frametitle{Special cases}
+\begin{itemize}
+	\item Binary rewards : $r^+,r^-$;
+	let $y^*$ be the ``real'' response~:
+	$$E_{Y|X}(\boldsymbol{g}(\underline{\mathbf{x}},y)) = (r^+ - r^-) \pi(\underline{\mathbf{x}},y^*;\mathbf{w})
+	\left(\boldsymbol{x}_{y^*} - \sum_k  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) \boldsymbol{x}_k \right)$$
+	{\color{white}\item Noisy rewards : let $p_\text{valid}$ be the rate of valid rewards~:
+	\begin{footnotesize}
+	$$E_{Y|X}(\boldsymbol{g}(\underline{\mathbf{x}},y)) = (2 p_\text{valid} - 1) (r^+ - r^-) \pi(\underline{\mathbf{x}},y^*;\mathbf{w})
+	\left(\boldsymbol{x}_{y^*} - \sum_k  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) \boldsymbol{x}_k \right)$$
+	\end{footnotesize}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Special cases}
+	\begin{itemize}
+		\item Binary rewards : $r^+,r^-$;
+		let $y^*$ be the ``real'' response~:
+		$$E_{Y|X}(\boldsymbol{g}(\underline{\mathbf{x}},y)) = \underbrace {(r^+ - r^-) \pi(\underline{\mathbf{x}},y^*;\mathbf{w})}_\text{=1?}
+		\underbrace{\left(\boldsymbol{x}_{y^*} - \sum_k  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) \boldsymbol{x}_k \right)}_\text{Logistic gradient}$$
+		\item {\color{white}Noisy rewards : let $p_\text{valid}$ be the rate of valid rewards~:
+		\begin{footnotesize}
+			$$E_{Y|X}(\boldsymbol{g}(\underline{\mathbf{x}},y)) = (2 p_\text{valid} - 1) (r^+ - r^-) \pi(\underline{\mathbf{x}},y^*;\mathbf{w})
+			\left(\boldsymbol{x}_{y^*} - \sum_k  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) \boldsymbol{x}_k \right)$$
+		\end{footnotesize}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Special cases}
+	\begin{itemize}
+		\item Binary rewards : $r^+,r^-$;
+		let $y^*$ be the ``real'' response~:
+		$$E_{Y|X}(\boldsymbol{g}(\underline{\mathbf{x}},y)) = \underbrace {(r^+ - r^-) \pi(\underline{\mathbf{x}},y^*;\mathbf{w})}_\text{=1?}
+		\underbrace{\left(\boldsymbol{x}_{y^*} - \sum_k  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) \boldsymbol{x}_k \right)}_\text{Logistic gradient}$$
+		\item Noisy rewards : let $p_\text{valid}$ be the rate of valid rewards~:
+		\begin{footnotesize}
+			$$E_{Y|X}(\boldsymbol{g}(\underline{\mathbf{x}},y)) = (2 p_\text{valid} - 1) (r^+ - r^-) \pi(\underline{\mathbf{x}},y^*;\mathbf{w})
+			\left(\boldsymbol{x}_{y^*} - \sum_k  \pi(\underline{\mathbf{x}},k;\boldsymbol{w}) \boldsymbol{x}_k \right)$$
+		\end{footnotesize}
+	\end{itemize}
 \end{frame}
 
 \section{Simulations}
@@ -422,16 +485,25 @@ TODO
 \centerline{\includegraphics[width=0.7\linewidth]{PG_softmax.png}}
 \end{frame}
 
+\begin{frame}\frametitle{XDAWN spatial filter}
+	\vspace{-.8cm}
+	\cite{Rivet09}
+	\centerline{
+		\includegraphics[width=0.7\linewidth]{ijcnn-eeg-filt}
+	}
+\end{frame}
+
 \begin{frame}\frametitle{Classification improvement after a 25-trials training session}
+	%\vspace{-1cm}
 \centerline{
-	\includegraphics[width=0.7\linewidth]{fig_filter_adapt}
+	\includegraphics[width=.9\linewidth]{fig_filter_adapt}
 }
 \end{frame}
 
 \begin{frame}\frametitle{Global recovery after electrode break
 		}
 	\centerline{
-		\includegraphics[width=0.7\linewidth]{fig_invalid}
+		\includegraphics[width=0.9\linewidth]{fig_invalid}
 	}
 \end{frame}
 
@@ -452,42 +524,39 @@ TODO
 
 \begin{frame}\frametitle{Conclusion}
  \begin{itemize}
-  \item P300-speller implements the ``oddball'' classification problem 
-  \item ``instant'' reward-based gradient descent is efficient in the P300-speller case:
-    \begin{itemize}
-      \item fast learning : clean class separation + low-variance gradient
-      \item allows to track environmental changes
-    \end{itemize}
-    \item But :
+  \item  ``Instant'' reward-based policy gradient descent implements classifier training
+  \item Binary instant rewards allow non-stochastic exploration (argmax choice instead of softmax) with MLE convergence guaranties 
+  \item Regularization allows to track environmental changes
+  \item  Is efficient in the P300-speller case, but :
     \begin{itemize}
       \item high variability between subjects
       \item reward extraction problem (difficulty shift)
-      \item non-reliable rewards?
+      \item reward non-reliability bound = 0.7?
     \end{itemize}
  \end{itemize}
 \end{frame}
 
-\begin{frame}{Outlook and discussion}
- \begin{itemize}
-  \item the oddball problem is a specific decision-making problem
-  \begin{itemize}
-    \item ``choose'' the element that fits the best the matching criterions in a set of $K$ candidates
-    \item update the matching criterions
-    \item the candidates are renewed at each trial
-  \end{itemize}
-  \item forgetting (and re-learning) is important in a non-stationary environment:
-  \begin{itemize}
-    \item ($\eta$, $\lambda$) change tracking 
-    \item $\lambda$ regulates the score separation
-    \item $ \frac{1}{\eta\lambda}$ is the sliding window 
-  \end{itemize}
-  \item reward-based learning is efficient in softmax/linear classifiers
-  \begin{itemize}
-  \item bridges between stochastic / probabilistic frameworks
-  \end{itemize}
- \end{itemize}
+%\begin{frame}{Outlook and discussion}
+% \begin{itemize}
+%  \item the oddball problem is a specific decision-making problem
+%  \begin{itemize}
+%    \item ``choose'' the element that fits the best the matching criterions in a set of $K$ candidates
+%    \item update the matching criterions
+%    \item the candidates are renewed at each trial
+%  \end{itemize}
+%  \item forgetting (and re-learning) is important in a non-stationary environment:
+%  \begin{itemize}
+%    \item ($\eta$, $\lambda$) change tracking 
+%    \item $\lambda$ regulates the score separation
+%    \item $ \frac{1}{\eta\lambda}$ is the sliding window 
+%  \end{itemize}
+%  \item reward-based learning is efficient in softmax/linear classifiers
+%  \begin{itemize}
+%  \item bridges between stochastic / probabilistic frameworks
+%  \end{itemize}
+% \end{itemize}
 
-\end{frame}
+%\end{frame}
 
 
 

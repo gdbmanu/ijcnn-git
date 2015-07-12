@@ -42,4 +42,10 @@ Perrin, M. (2012).
   :application au P300-speller}.
 \newblock PhD thesis, Universit\'e Claude Bernard - Lyon 1.
 
+\bibitem[Rivet et~al., 2009]{Rivet09}
+Rivet, B., Souloumiac, A., Attina, V., and Gibert, G. (2009).
+\newblock {xDAWN algorithm to enhance evoked potentials: application to
+  brain-computer interface.}
+\newblock {\em IEEE Transactions on Biomedical Engineering}, 56(8):2035--43.
+
 \end{thebibliography}
