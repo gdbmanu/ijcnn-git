@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.33pt}
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Reward-based learning}{10}{0}{2}
+\beamer@sectionintoc {3}{Simulations}{18}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{26}{0}{4}
